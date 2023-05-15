@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Order List</h1>
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>vardas</th>
+            <th>pavarde</th>
+            <th>address1</th>
+            <th>address2</th>
+            <th>city</th>
+            <th>telnr</th>
+            <th>pastabos</th>
+            <th>email</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for order in orders %}
+        <tr>
+            <td>{{ order.id }}</td>
+            <td>{{ order.vardas }}</td>
+            <td>{{ order.pavarde }}</td>
+            <td>{{ order.address1 }}</td>
+            <td>{{ order.address2 }}</td>
+            <td>{{ order.city }}</td>
+            <td>{{ order.telnr }}</td>
+            <td>{{ order.pastabos }}</td>
+            <td>{{ order.email }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

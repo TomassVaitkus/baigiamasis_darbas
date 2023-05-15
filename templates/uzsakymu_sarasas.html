@@ -1,0 +1,13 @@
+{% for uzsakymas in uzsakymai %}
+  <p>Is kur: {{ uzsakymas.is_kur }}</p>
+  <p>I kur: {{ uzsakymas.i_kur }}</p>
+  <p>Svoris: {{ uzsakymas.svoris }}</p>
+  <p>Telefonas: {{ uzsakymas.telefonas }}</p>
+  <p>Siuntėjas: {{ uzsakymas.siuntejas }}</p>
+  <p>Gavėjo vardas: {{ uzsakymas.gavejas_vardas }}</p>
+  <p>Gavėjo pavardė: {{ uzsakymas.gavejas_pavarde }}</p>
+  <a href="/uzsakymas/{{ uzsakymas.id }}">Redaguoti užsakymą</a>
+  <form action="/uzsakymas/{{ uzsakymas.id }}/atsaukti" method="POST">
+    <input type="submit" value="Atšaukti užsakymą">
+  </form>
+{% endfor %}
