@@ -23,3 +23,5 @@ Pirkėjas turi prisijungti ir matyti savo pristatymo informacija (ją papildysiu
 
 Vežėjas turi prisijungti ir matyti visus galimus užsakymus, kuriuos jis gali priimti arba nepriimti.
 Taip pat savo visus priimtus užsakymus
+
+(bus papildyta)
