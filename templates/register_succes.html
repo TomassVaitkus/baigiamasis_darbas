@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Success</title>
+  </head>
+  <body>
+    <h1>Registration Successful</h1>
+    <h2>Registered Users:</h2>
+    <ul>
+      {% for user in users %}
+      <li>{{ user.username }} - {{ user.password }} - {{ user.email }}</li>
+      {% endfor %}
+    </ul>
+  </body>
+</html>

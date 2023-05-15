@@ -2,26 +2,24 @@ from flask import Flask, render_template, request, redirect, url_for, flash
 from form import OrderForm
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
-# db = SQLAlchemy()
 
-# class Order(db.Model):
-#     __tablename__ = 'orders'
-#     id = db.Column(db.Integer, primary_key=True)
-#     email = db.Column(db.String(50))
-#     vardas = db.Column(db.String(50))
-#     pavarde = db.Column(db.String(50))
-#     address1 = db.Column(db.String(50))
-#     address2 = db.Column(db.String(50))
-#     city = db.Column(db.String(50))
-#     zip_code = db.Column(db.String(50)) 
-#     telnr = db.Column(db.String(50))
-#     pastabos = db.Column(db.String(50))
-    
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'bet kokia simbolių eilutė'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///mydatabase.db'
 db = SQLAlchemy(app)
-# Migrate(app, db)
+migrate = Migrate(app, db)
+
+class User(db.Model):
+    __tablename__ = 'users'
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(80), unique=True, nullable=False)
+    password = db.Column(db.String(80), unique=False, nullable=False)
+    email = db.Column(db.String(120), unique=True, nullable=False)
+
+    def __init__(self, username, email, password):
+        self.username = username
+        self.email = email
+        self.password = password
 
 
 class Order(db.Model):
@@ -36,8 +34,25 @@ class Order(db.Model):
     zip_code = db.Column(db.String(50)) 
     telnr = db.Column(db.String(50))
     pastabos = db.Column(db.String(50))
-    
-# db.create_all()
+
+
+@app.route('/', methods=['GET', 'POST'])
+def register():
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+        email = request.form['email']
+        user = User(username=username, email=email, password=password)
+        db.session.add(user)
+        db.session.commit()
+        return redirect('/register_success')
+    return render_template('register.html')
+
+@app.route('/register_success')
+def success():
+    users = User.query.all()
+    return render_template('register_succes.html', users=users)
+
 
 @app.route('/fill_order', methods=['GET', 'POST'])
 def fill_order():
@@ -52,7 +67,7 @@ def fill_order():
                       zip_code=form.zip_code.data,
                       telnr=form.telnr.data,
                       pastabos=form.pastabos.data)
-        db.create_all()
+        # db.create_all()
         db.session.add(order)
         db.session.commit()
         return redirect(url_for('order_list'))
@@ -75,7 +90,7 @@ def order_list():
 
 
 
-@app.route('/', methods=['GET', 'POST'])
+@app.route('/login', methods=['GET', 'POST'])
 def login():
     error = None
     if request.method == 'POST':
@@ -90,4 +105,6 @@ def login():
 
 
 if __name__ == '__main__':
-  app.run(host='127.0.0.1', port=8000, debug=True)
+    with app.app_context():
+        db.create_all()
+    app.run(debug=True)
