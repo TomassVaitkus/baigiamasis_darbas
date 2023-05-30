@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      table {
+        border-collapse: collapse;
+        width: 100%;
+      }
+
+      th, td {
+        text-align: left;
+        padding: 8px;
+      }
+
+      th {
+        background-color: #f2f2f2;
+      }
+
+      tr:nth-child(even) {
+        background-color: #f2f2f2;
+      }
+    </style>
+  </head>
+  <body>
+    {% include 'navbar_login.html' %}
+    <h1>Selected Orders Table </Table></h1>
+<form action="{{ url_for('confirm_delivery') }}" method="post">
+    <table>
+      <thead>
+        <tr>
+          <th>Paemimo</th>
+          <th>Pristatymo</th>
+          <th>Svoris</th>
+          <th>Tel_nr</th>
+          <th>user_id</th>
+          <th>delivered</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for row in data %}
+        <tr>
+          <td>{{ row.Paemimo }}</td>
+          <td>{{ row.Pristatymo }}</td>
+          <td>{{ row.Svoris }}</td>
+          <td>{{ row.Tel_nr }}</td>
+          <td>{{ row.user_id }}</td>
+          <td>{{ row.delivered }}</td>
+          <td>
+            {% if not row.delivered %}
+            <input type="checkbox" name="selected" value="{{ row.id }}">
+            {% endif %}
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    <button type="submit">Confirm Delivery</button><br><br>
+    <a href="{{ url_for('logout') }}">Logout</a>
+  </form>

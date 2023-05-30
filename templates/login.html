@@ -4,9 +4,8 @@
     <title>Login Page</title>
 </head>
 <body>
-    {% if error %}
-        <p>{{ error }}</p>
-    {% endif %}
+    {% include 'navbar.html' %}
+    <h1>Login Page</h1>
     <form method="post" action="{{ url_for('login') }}">
         <label for="username">Username:</label>
         <input type="text" id="username" name="username"><br><br>
@@ -16,5 +15,4 @@
     </form>
 </body>
 </html>
-
 
